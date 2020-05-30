@@ -64,7 +64,6 @@ public class WorkerManager {
 		// re-implement order generation code from part 1, without early return
 		while (!stepsRemaining.isEmpty()) {
 			String currStep = "";
-			List<String> stepsToUpdate = new ArrayList<>();
 			Iterator<String> stepIter = stepsRemaining.iterator();
 			while (stepIter.hasNext()) {
 				currStep = stepIter.next();
@@ -72,25 +71,46 @@ public class WorkerManager {
 				// if no prerequisites, should be the next step
 				if (prereqs == null || stepsChecked.containsAll(prereqs)) {
 					stepOrder.append(currStep);
-					stepsToUpdate.add(currStep);
 				}
 			}
-			// update map
-			for(String toUpdate : stepsToUpdate) {
-				stepsChecked.add(toUpdate);
-				stepsRemaining.remove(toUpdate);
+			// assign the steps, in order of the earliest to complete
+			while (stepOrder.length() > 0) {
+				int earliest = Integer.MAX_VALUE;
+				int index = 0;
+				for (int i = 0; i < stepOrder.length(); i++) {
+					char step = stepOrder.charAt(i);
+					// check for last finishing time
+					int lastFinish = 0;
+					if (prereqMap.containsKey("" + step)) {
+						for (String prereq : prereqMap.get("" + step)) {
+							Integer finishingTime = stepFinishes.get(prereq);
+							// check for last finishing time
+							if (finishingTime != null && 
+									finishingTime > lastFinish) {
+								lastFinish = finishingTime;
+							}
+						}
+					}
+					// update earliest time and index, if possible
+					if (earliest > lastFinish) {
+						earliest = lastFinish;
+						index = i;
+					}
+				}
+				// determined earliest something can be assigned
+				String toAssign = "" + stepOrder.charAt(index); 
+				assign (toAssign, earliest);
+				stepOrder.deleteCharAt(index);
+				stepsRemaining.remove("" + toAssign);
+				stepsChecked.add("" + toAssign);
 			}			
-		}
-		System.out.println(stepOrder);
-		for (char c : stepOrder.toString().toCharArray()) {
-			assign ("" + c);
 		}
 	}
 	
 	/*
 	 * assign the next step to be completed
 	 */
-	private void assign(String step) {
+	private void assign(String step, int time) {
 		// check worker availability for the earliest relative time
 		int earliestInit = Integer.MAX_VALUE;
 		int workerToAssign = 0;
@@ -101,17 +121,10 @@ public class WorkerManager {
 			}
 		}
 		
-		// check step prerequisites
-		if (prereqMap.containsKey(step)) {
-			// for each prerequisite step, check its finishing time
-			for (String prereq : prereqMap.get(step)) {
-				Integer finishingTime = stepFinishes.get(prereq);
-				// step can only begin at the finishing time of its last prereq
-				if (finishingTime != null && finishingTime > earliestInit) {
-					earliestInit = finishingTime;
-				}
-			}
-		}		
+		// already determined minimum time can be execute
+		if (earliestInit < time) {
+			earliestInit = time;
+		}
 
 		// log worker activity
 		workerLogs[workerToAssign] += earliestInit + " " + step + " start, ";
@@ -140,19 +153,6 @@ public class WorkerManager {
 	public void printLogs() {
 		for (String log : workerLogs) {
 			System.out.println(log);
-		}
-	}
-	
-	/*
-	 * finish a step, removing it from the map and from other steps prereqs
-	 */
-	private void finishStep(String step) {
-		stepsRemaining.remove(step);
-		if (prereqMap.containsKey(step)) {
-			prereqMap.remove(step);
-		}
-		for (String currStep : prereqMap.keySet()) {
-			prereqMap.get(currStep).remove(step);
 		}
 	}
 }
