@@ -10,7 +10,7 @@ import java.util.List;
 public class Day_4p2 {
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		File input = new File("input.txt");
+		File input = new File("Day-4/input.txt");
 		Scanner fileIn = new Scanner(input);
 		Set<Integer> guardNums = new HashSet<Integer>();
 		List<String> timestamps = new ArrayList<String>();

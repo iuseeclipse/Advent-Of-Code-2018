@@ -7,7 +7,7 @@ import java.util.Set;
 public class Day_2 {
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		File input = new File("input.txt");
+		File input = new File("Day-2/input.txt");
 		Set<Character> set_test = new HashSet<Character>();
 		Scanner fileIn = new Scanner(input);
 		int[] freq = new int[26];

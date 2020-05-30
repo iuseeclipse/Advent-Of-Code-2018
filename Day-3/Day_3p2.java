@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 public class Day_3p2 {
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		File input = new File("input.txt");
+		File input = new File("Day-3/input.txt");
 		Scanner fileIn = new Scanner(input);
 		int[][] fabric = new int[1001][1001];
 		int overlaps = 0;

@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 public class Day_6p2 {
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		Scanner fileIn = new Scanner(new File("input.txt"));
+		Scanner fileIn = new Scanner(new File("Day-6/input.txt"));
 		List<int[]> coords = new ArrayList<int[]>();
 		while(fileIn.hasNext()) {
 			String in = fileIn.nextLine();

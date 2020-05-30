@@ -2,10 +2,10 @@ import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-public class Day5 {
+public class Day_5 {
 		
 	public static void main(String[] args) throws FileNotFoundException {
-		Scanner fileIn = new Scanner(new File("input.txt"));
+		Scanner fileIn = new Scanner(new File("Day-5/input.txt"));
 		String polymer1 = fileIn.next();
 		StringBuilder polymer = new StringBuilder(polymer1);
 		boolean cont = true;
