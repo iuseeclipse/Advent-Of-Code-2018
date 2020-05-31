@@ -21,6 +21,7 @@ public class Day_7 {
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		/* part 1: ---------------------------------------------------------- */ 
+		
 		Scanner fileIn = new Scanner(new File("Day-7/input.txt"));
 		prereqMap = new TreeMap<>();
 		stepsRemaining = new TreeSet<>();
@@ -49,18 +50,21 @@ public class Day_7 {
 				finishStep (currStep);
 			}			
 		}
-		System.out.println("Part 1 solution: " + stepOrder);
+		System.out.printf("Part 1 solution: %s\n", stepOrder.toString());
 		
 		/* Part 2: ---------------------------------------------------------- */
+		
 		// reset scanner and map
 		fileIn = new Scanner(new File("Day-7/input.txt"));
 		initMap(fileIn);
-		System.out.println(prereqMap);
+//		System.out.println(prereqMap);
+		
 		// use WorkerManager class to log/calculate total time
 		WorkerManager wm = new WorkerManager(5, prereqMap, stepsRemaining);
 		wm.start();
-		wm.printLogs();
-		System.out.println("Part 2 solution: " + wm.calculateTotal());
+//		wm.printLogs();
+		
+		System.out.printf("Part 2 solution: %d\n", wm.calculateTotal());
 	}
 	
 	/*
