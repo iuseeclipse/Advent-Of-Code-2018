@@ -13,7 +13,11 @@ public class Day_9 {
 		/* Part 1: ---------------------------------------------------------- */
 		MarbleCircle game = new MarbleCircle();
 		game.start(numPlayers, lastValue);
-		System.out.printf("Part 1 solution: %d\n", game.getHighScore());
+		System.out.printf("Part 1 solution: %s\n", game.getHighScore());
+		
+		/* Part 2: ---------------------------------------------------------- */
+		game.start(numPlayers, lastValue * 100);
+		System.out.printf("Part 2 solution: %s\n", game.getHighScore());
 	}
 
 }
