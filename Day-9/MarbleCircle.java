@@ -1,3 +1,5 @@
+import java.math.BigInteger;
+
 /*
  * Represent the circle of marbles as a doubly linked list 
  */
@@ -45,7 +47,7 @@ class MarbleCircle {
 	/*
 	 * store the scores of all the players
 	 */
-	int[] scores;
+	long[] scores;
 	
 	/*
 	 * current turn of the game
@@ -53,22 +55,21 @@ class MarbleCircle {
 	int turnNum;
 	
 	/*
-	 * initialize the circle with the first marble 0
+	 * start the game with the number of players and turns/max marble value
 	 */
-	public MarbleCircle() {
+	public void start(int numPlayers, int numTurns) {
 		// insert first marble 0
 		current = new Marble(0);
 		current.next = current;
 		current.prev = current;
-	}
-	
-	/*
-	 * start the game with the number of players and turns/max marble value
-	 */
-	public void start(int numPlayers, int numTurns) {
 		turnNum = 0;
+		
 		// set up scoreboard
-		scores = new int[numPlayers];
+		scores = new long[numPlayers];
+		for (int i = 0; i < scores.length; i++) {
+			scores[i] = 0;
+		}
+		
 		// place one marble for each turn
 		while (turnNum < numTurns) {
 			placeMarble();
@@ -105,7 +106,7 @@ class MarbleCircle {
 				toRemove = toRemove.prev;
 			}
 			// remove marble and update scores
-			int score = removeMarble(toRemove) + turnNum;
+			long score = removeMarble(toRemove) + turnNum;
 			// calculate index of current player using modulus
 			scores[(turnNum - 1) % scores.length] += score;
 		}
@@ -132,9 +133,9 @@ class MarbleCircle {
 	/*
 	 * returns the highest score, for part 1
 	 */
-	public int getHighScore() {
-		int max = Integer.MIN_VALUE;
-		for (int score : scores) {
+	public long getHighScore() {
+		long max = 0;
+		for (long score : scores) {
 			if (score > max) {
 				max = score;
 			}
